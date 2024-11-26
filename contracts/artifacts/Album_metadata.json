@@ -11,6 +11,31 @@
 				"type": "constructor"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "albumEvent_Artist",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "albumEvent_Title",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "albumEvent_Tracks",
+						"type": "uint256"
+					}
+				],
+				"name": "albumEvent",
+				"type": "event"
+			},
+			{
 				"inputs": [],
 				"name": "albumTitle",
 				"outputs": [
@@ -137,11 +162,11 @@
 	},
 	"sources": {
 		"contracts/Album.sol": {
-			"keccak256": "0xe5a7dc33f6c541cde671b17e2fc51ccd4448817a9ae7fd76fba4bc86f4aaa381",
+			"keccak256": "0x4b8a2d44d807a6ddf337d2210056e274324cd89823135b1cd602e3a74ff7f0fa",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a7dd774038778891298cdaccf4b320fe4726643ccffe0beaa2525e8390367e48",
-				"dweb:/ipfs/QmbiyTq5H1fsZcRJw42eXM23YUSwpiEGnzjaGBYdHkJhLE"
+				"bzz-raw://37ee64258f9365396295b2152dac0b9166be9000694863c6e71df5c4f5508e4d",
+				"dweb:/ipfs/QmWYXHLtmue6RUG28D1fA8MHYfSu7DfPfah3TDzvgUB1FU"
 			]
 		}
 	},
