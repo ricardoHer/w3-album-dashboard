@@ -1,0 +1,72 @@
+/* Basic CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    line-height: 1.6;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+body {
+    background-color: #F0F0F0;
+    padding: 2em;
+    font-family: 'Raleway', 'Source Sans Pro', 'Arial';
+  }
+  
+  .container {
+    width: 50%;
+    margin: 0 auto;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  input {
+    padding: 10px;
+    width: 50%;
+    margin-bottom: 1em;
+  }
+  
+  button {
+    margin: 2em 0;
+    padding: 1em 4em;
+    display: block;
+  }
+  
+  #album {
+    padding: 1em;
+    background-color: #fff;
+    margin: 1em 0;
+  }
+  
