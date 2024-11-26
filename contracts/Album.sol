@@ -25,5 +25,8 @@ contract Album {
         artist = _artist;
         albumTitle = _albumTitle;
         tracks = _tracks;
+
+        // Raise the algum event to let any event subscribers know the current algum informaition has changed.
+        emit albumEvent(_artist, _albumTitle, _tracks);
     }
 }
