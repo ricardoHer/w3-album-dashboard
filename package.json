@@ -1,0 +1,17 @@
+{
+  "name": "w3-album-dashboard",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "hardhat": "^2.22.16"
+  }
+}
