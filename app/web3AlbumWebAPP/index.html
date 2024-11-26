@@ -1,76 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Web3 Album</title>
-    <link rel="stylesheet" type="text/css" href="main.css">
-    <script src="/node_modules/web3/dist/web3.min.js"></script>
-  </head>
 
-  <body>
-    <div class="container">
-      <h1>The Album Dashboard</h1>
-      <h2 id="album"> </h2>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Web3 Album</title>
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <script src="node_modules/web3/dist/web3.min.js"></script>
+</head>
 
-      <label for="albumArtist" class="col-lg-2 control-label">Artist</label>
-      <input id="albumArtist" type="text">
+<body>
+  <div class="container">
+    <h1>The Album Dashboard</h1>
+    <h2 id="album"> </h2>
 
-      <label for="albumName" class="col-lg-2 control-label">Album Name</label>
-      <input id="albumName" type="text">
+    <label for="albumArtist" class="col-lg-2 control-label">Artist</label>
+    <input id="albumArtist" type="text">
 
-      <label for="tracks" class="col-lg-2 control-label">Tracks</label>
-      <input id="tracks" type="text">
+    <label for="albumName" class="col-lg-2 control-label">Album Name</label>
+    <input id="albumName" type="text">
 
-      <button id="button">Update Album</button>
-    </div>
+    <label for="tracks" class="col-lg-2 control-label">Tracks</label>
+    <input id="tracks" type="text">
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <button id="button">Update Album</button>
+  </div>
 
-    <script>
-      // Update these variables with your account number and contract address
-      var myAccountNumber = 'PASTE YOUR ACCOUNT NUMBER HERE (FROM GANACHE)';
-      var myContractAddress = 'PASTE YOUR DEPLOYED CONTRACT ADDRESS HERE (FROM GANACHE)';
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
-      // Create a new web3 provider
-      web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+  <script>
+    // Update these variables with your account number and contract address
+    var myAccountNumber = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266';
+    var myContractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
-      // Check your account balance, display the result
-      web3.eth.getBalance(myAccountNumber).then((balance) => console.log(balance));
+    // Create a new web3 provider
+    web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
 
-      // Build a reference to the smart contract.
-      var albumContract = new web3.eth.Contract('PASTE YOUR ABI HERE (without the quotes)');
-      albumContract.options.address = myContractAddress;
+    // Check your account balance, display the result
+    web3.eth.getBalance(myAccountNumber).then((balance) => console.log('The Balance: ', balance));
 
-      // Display contract info for confirmation
-      console.log(album);
+    // Build a reference to the smart contract.
+    var albumContract = new web3.eth.Contract([
+      {
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "_artist",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_albumTitle",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_tracks",
+            "type": "uint256"
+          }
+        ],
+        "name": "setAlbum",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "inputs": [],
+        "name": "albumTitle",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "artist",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "contractAlbum",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getAlbum",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "tracks",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ], myContractAddress);
+    
+    // Display contract info for confirmation
+    console.log('Esse é o Album: ', album);
 
-      // Display album information.
-      albumContract.methods.getAlbum().call(function (error, result) {
-        // Display album artist, title, and tracks
-        if (error) {
-          $("#album").html(result[0] + ' - ' + result[1] + ' (' + result[2] + ' tracks)');
-        } else {
-          console.log(result);
-        }
-      });
+    // Display album information.
+    albumContract.methods.getAlbum().call(function (error, result) {
+      console.log('Não ta pegando o album');
+      // Display album artist, title, and tracks
+      if (error) {
+        $("#album").html(result[0] + ' - ' + result[1] + ' (' + result[2] + ' tracks)');
+      } else {
+        console.log('Might be the result: ', result);
+      }
+    });
 
-      // Update the current album info using the user-provided information
-      $('#button').click(function () {
-        // Get album info from the UI
-        var theAlbumArtist = $("#albumArtist").val();
-        console.log("THE ALBUM ARTIST IS: " + theAlbumArtist);
+    // Update the current album info using the user-provided information
+    $('#button').click(function () {
+      // Get album info from the UI
+      var theAlbumArtist = $("#albumArtist").val();
+      console.log("THE ALBUM ARTIST IS: " + theAlbumArtist);
 
-        var theAlbumName = $("#albumName").val();
-        console.log("THE ALBUM NAME IS: " + theAlbumName);
+      var theAlbumName = $("#albumName").val();
+      console.log("THE ALBUM NAME IS: " + theAlbumName);
 
-        var albumTracks = $("#tracks").val();
-        console.log("THE NUMBER OF TRACKS IS: " + albumTracks);
+      var albumTracks = $("#tracks").val();
+      console.log("THE NUMBER OF TRACKS IS: " + albumTracks);
 
-        // Pass collected info to SetAlbum contract method
-        albumContract.methods.setAlbum(theAlbumArtist, theAlbumName, albumTracks).send({from: myAccountNumber});
-      });
-    </script>
-  </body>
+      // Pass collected info to SetAlbum contract method
+      albumContract.methods.setAlbum(theAlbumArtist, theAlbumName, albumTracks).send({ from: myAccountNumber });
+    });
+  </script>
+</body>
+
 </html>
