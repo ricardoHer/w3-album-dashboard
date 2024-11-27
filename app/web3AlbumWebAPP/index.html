@@ -38,143 +38,169 @@
     var myContractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
     // Create a new web3 provider
-    // web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
-    let web3 = new Web3(new Web3.providers.WebsocketProvider('ws://localhost:8545'))
+    web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
+    // let web3 = new Web3(new Web3.providers.WebsocketProvider('ws://eth-sepolia.g.alchemy.com/v2/Fmyf_pl7WZemB2FNg_wLl6Hza47tZpAW'))
 
     // Check your account balance, display the result
     web3.eth.getBalance(myAccountNumber).then((balance) => console.log('The Balance: ', balance));
 
     // Build a reference to the smart contract.
     var albumContract = new web3.eth.Contract([
-      {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "internalType": "string",
-            "name": "albumEvent_Artist",
-            "type": "string"
-          },
-          {
-            "indexed": false,
-            "internalType": "string",
-            "name": "albumEvent_Title",
-            "type": "string"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "albumEvent_Tracks",
-            "type": "uint256"
-          }
-        ],
-        "name": "albumEvent",
-        "type": "event"
-      },
-      {
-        "inputs": [],
-        "name": "albumTitle",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "artist",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "contractAlbum",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "getAlbum",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "_artist",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "_albumTitle",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_tracks",
-            "type": "uint256"
-          }
-        ],
-        "name": "setAlbum",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "tracks",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      }
-    ]);
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "albumEvent_Artist",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "albumEvent_Title",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "albumEvent_Tracks",
+          "type": "uint256"
+        }
+      ],
+      "name": "albumEvent",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "errorEvent_Message",
+          "type": "string"
+        }
+      ],
+      "name": "errorEvent",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "albumTitle",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "artist",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "contractAlbum",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAlbum",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_artist",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_albumTitle",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tracks",
+          "type": "uint256"
+        }
+      ],
+      "name": "setAlbum",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "tracks",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]);
     albumContract.options.address = myContractAddress;
 
     // Display contract info for confirmation
