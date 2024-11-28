@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-contract Album {
+import "./Utility.sol";
+
+contract Album is Utility {
     struct musicAlgum {
         string artist;
         string albumTitle;
@@ -11,7 +13,6 @@ contract Album {
     mapping(address => musicAlgum) public userAlbuns;
 
     string public constant contractAlbum = "Kris Bennet";
-    address public owner;
 
     // Event which will be raised anytime the current album information is updated
     event albumEvent(
@@ -21,14 +22,10 @@ contract Album {
         uint albumEvent_Tracks
     );
 
-    event errorEvent(string errorEvent_Message);
-
-    constructor() {
+    constructor() Utility(msg.sender) {
         currentAlbum.artist = "Nirvana";
         currentAlbum.albumTitle = "Nevermind";
         currentAlbum.tracks = 13;
-
-        owner = msg.sender;
     }
 
     function getCurrentlbum()
@@ -88,13 +85,5 @@ contract Album {
             _albumTitle,
             _tracks
         );
-    }
-
-    modifier onlyOwner() {
-        if (msg.sender == owner) {
-            _;
-        } else {
-            emit errorEvent("Only the owner can call this function");
-        }
     }
 }

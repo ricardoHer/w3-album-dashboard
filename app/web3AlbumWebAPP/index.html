@@ -11,21 +11,37 @@
 </head>
 
 <body>
+
+
   <div class="container">
     <h1>The Album Dashboard</h1>
-    <h2 id="album"> </h2>
-    <img src="./images/loader.gif" id="loader">
+    <!--Display a spinner while waiting for information-->
+    <img id="loader" src="images/loader.gif">
+    <!--Status information coming from contract events-->
+    <h2>Status Message:<br /></h2>
+    <h2 id="status"></h2>
+    <!--Display current album information-->
+    <h2>CURRENT ALBUM INFORMATION:<br /></h2>
+    <h2 id="album"></h2>
+    <!--Display the current user's favorite album information-->
+    <h2>CURRENT USER'S PERSONAL FAVORITE:<br /></h2>
+    <h2 id="userAlbum"></h2>
+    <!--Collect information to perform an update-->
+    <!--Get the Artist-->
     <label for="albumArtist" class="col-lg-2 control-label">Artist</label>
     <input id="albumArtist" type="text">
-
+    <!--Get the Album Title-->
     <label for="albumName" class="col-lg-2 control-label">Album Name</label>
     <input id="albumName" type="text">
-
+    <!--Get the number of tracks on the album-->
     <label for="tracks" class="col-lg-2 control-label">Tracks</label>
     <input id="tracks" type="text">
-
+    <!--Use this information to update the current album-->
     <button id="button">Update Album</button>
+    <!--Use this information to update the current user's favorite album-->
+    <button id="userButton">Set My Personal Album</button>
   </div>
+
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
@@ -38,202 +54,284 @@
     var myContractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
     // Create a new web3 provider
-    web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
-    // let web3 = new Web3(new Web3.providers.WebsocketProvider('ws://eth-sepolia.g.alchemy.com/v2/Fmyf_pl7WZemB2FNg_wLl6Hza47tZpAW'))
+    // web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
+    let web3 = new Web3(new Web3.providers.WebsocketProvider('ws://127.0.0.1:8545'))
 
     // Check your account balance, display the result
     web3.eth.getBalance(myAccountNumber).then((balance) => console.log('The Balance: ', balance));
 
     // Build a reference to the smart contract.
     var albumContract = new web3.eth.Contract([
-    {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "albumEvent_Artist",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "albumEvent_Title",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "albumEvent_Tracks",
-          "type": "uint256"
-        }
-      ],
-      "name": "albumEvent",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "errorEvent_Message",
-          "type": "string"
-        }
-      ],
-      "name": "errorEvent",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "albumTitle",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "artist",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "contractAlbum",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getAlbum",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_artist",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_albumTitle",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_tracks",
-          "type": "uint256"
-        }
-      ],
-      "name": "setAlbum",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "tracks",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ]);
+      {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "algumEvent_Description",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "albumEvent_Artist",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "albumEvent_Title",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "albumEvent_Tracks",
+            "type": "uint256"
+          }
+        ],
+        "name": "albumEvent",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "errorEvent_Message",
+            "type": "string"
+          }
+        ],
+        "name": "errorEvent",
+        "type": "event"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "_artist",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_albumTitle",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_tracks",
+            "type": "uint256"
+          }
+        ],
+        "name": "setCurrentAlbum",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "_artist",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_albumTitle",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_tracks",
+            "type": "uint256"
+          }
+        ],
+        "name": "setUsersFavoriteAlbum",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "contractAlbum",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "currentAlbum",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "artist",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "albumTitle",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tracks",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getCurrentlbum",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getUserFavoriteAlbum",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "userAlbuns",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "artist",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "albumTitle",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tracks",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ]);
     albumContract.options.address = myContractAddress;
 
     // Display contract info for confirmation
-    console.log('Esse é o Album: ', album);
 
-    // Display album information.
-    albumContract.methods.getAlbum().call(function (error, result) {
-      console.log('Não ta pegando o album');
+    albumContract.methods.getUserFavoriteAlbum().call({ from: myAccountNumber }).then(function (result, error) {
       // Display album artist, title, and tracks
-      if (error) {
-        $("#album").html(result[0] + ' - ' + result[1] + ' (' + result[2] + ' tracks)');
-      } else {
-        console.log('Might be the result: ', result);
-      }
+      if (!error) {
+        $("#userAlbum").html(result[0] + ' - ' + result[1] + ' (' + result[2] + ' tracks)');
+        console.log(result);
+      } else
+        console.error(error);
     });
 
-    albumContract.events.albumEvent(
+    albumContract.events.errorEvent({},
       function (error, result) {
-        console.log('Error: ', error);
-        if (!error) {
-          $("#loader").hide();
-          $("#album").html('The current album is ' + result.returnValues.albumEvent_Title +
-            ' by ' + result.returnValues.albumEvent_Artist +
-            '.<br/> It contains ' + result.returnValues.albumEvent_Tracks + ' tracks.');
-        } else {
-          $("#loader").hide();
-          console.log(error);
-        } // else
+        $("#loader").hide();
+        $("#status").html('<h1>ERROR: </h1><br/>' + result.returnValues.errorEvent_Description);
       } // function(error, result)
-    ); // albumContract.albumEvent
+    ); // albumContract.errorEvent
+
+
+    albumContract.methods.getCurrentlbum().call().then(function (result, error) {
+      // Display album artist, title, and tracks
+      console.log('Pq não tá vindo resultado?', error);
+      if (!error) {
+        $("#album").html(result[0] + ' - ' + result[1] + ' (' + result[2] + ' tracks)');
+        console.log(result);
+      } else
+        console.error(error);
+    });
+
+    albumContract.events.albumEvent({}, (error, event) => {
+      if (!error) {
+        console.log('Event: ', event);
+      } else {
+        $("#loader").hide();
+        console.error(error);
+      }
+    }).on('data', (result) => {
+      console.log('Data: ', result);
+      $("#loader").hide();
+      $("#status").html(result.returnValues.algumEvent_Description + '<br/>' +
+        'ALBUM: ' + result.returnValues.albumEvent_Title + '<br/>' +
+        'ARTIST: ' + result.returnValues.albumEvent_Artist + '<br/>' +
+        result.returnValues.albumEvent_Tracks + ' tracks.');
+
+    });
 
     // Update the current album info using the user-provided information
-    $('#button').click(function () {
+    $("#button").click(function () {
       // Get album info from the UI
       var theAlbumArtist = $("#albumArtist").val();
       console.log("THE ALBUM ARTIST IS: " + theAlbumArtist);
@@ -244,10 +342,29 @@
       var albumTracks = $("#tracks").val();
       console.log("THE NUMBER OF TRACKS IS: " + albumTracks);
 
+      // Show the loading icon. This icon will be hidden when the albumEvent event is raised by the contract.
+      $("#loader").show();
+      // Pass collected info to SetAlbum contract method
+      albumContract.methods.setCurrentAlbum(theAlbumArtist, theAlbumName, albumTracks).send({ gas: 550000, from: myAccountNumber });
+    });
+
+    // Update the current user's favorite album info using the user-provided information
+    $("#userButton").click(function () {
+      // Get album info from the UI
+      var theAlbumArtist = $("#albumArtist").val();
+      console.log("THE ALBUM ARTIST IS: " + theAlbumArtist);
+
+      var theAlbumName = $("#albumName").val();
+      console.log("THE ALBUM NAME IS: " + theAlbumName);
+
+      var albumTracks = $("#tracks").val();
+      console.log("THE NUMBER OF TRACKS IS: " + albumTracks);
+
+      // Show the loading icon. This icon will be hidden when the albumEvent event is raised by the contract.
       $("#loader").show();
 
       // Pass collected info to SetAlbum contract method
-      albumContract.methods.setAlbum(theAlbumArtist, theAlbumName, albumTracks).send({ from: myAccountNumber });
+      albumContract.methods.setUsersFavoriteAlbum(theAlbumArtist, theAlbumName, albumTracks).send({ gas: 550000, from: myAccountNumber });
     });
   </script>
 </body>
