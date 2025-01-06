@@ -3,7 +3,7 @@ pragma solidity ^0.8.24;
 
 import "./Utility.sol";
 
-contract Album is Utility {
+contract AlbumInteract is Utility {
     struct musicAlgum {
         string artist;
         string albumTitle;
